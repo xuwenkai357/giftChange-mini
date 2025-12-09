@@ -1,0 +1,40 @@
+<view class="container form-page">
+  <view class="snow-bg"></view>
+  <view class="header">
+    <text class="title">🎄 圣诞礼物交换 🎄</text>
+    <text class="subtitle">填写信息参与配对</text>
+  </view>
+  <view class="form-container">
+    <view class="avatar-section">
+      <button class="avatar-wrapper" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+        <image class="avatar" src="{{userInfo.avatarUrl || defaultAvatarUrl}}"></image>
+        <view class="edit-icon">📷</view>
+      </button>
+      <text class="tip">点击设置头像</text>
+    </view>
+    <view class="form-item">
+      <text class="label">微信昵称</text>
+      <input type="nickname" class="input" placeholder="请输入昵称" bind:change="onNickNameChange" value="{{userInfo.nickName}}" />
+    </view>
+    <view class="form-item">
+      <text class="label">希望对方怎么称呼你？</text>
+      <input class="input" placeholder="例如：神秘的圣诞精灵" placeholder-class="placeholder" bindinput="onCallNameInput" value="{{callName}}" />
+    </view>
+    <view class="form-item">
+      <text class="label">是否准备了礼物？</text>
+      <radio-group class="radio-group" bindchange="onGiftChange">
+        <label class="radio-label">
+          <radio value="1" checked="{{hasGift}}" color="#D42426" />
+          <text>是，我带了</text>
+        </label>
+        <label class="radio-label">
+          <radio value="0" checked="{{!hasGift}}" color="#D42426" />
+          <text>否，还没准备</text>
+        </label>
+      </radio-group>
+    </view>
+    <button class="submit-btn" bindtap="onSubmit" disabled="{{loading}}" loading="{{loading}}">
+      {{loading ? '正在提交...' : '确认参与'}}
+    </button>
+  </view>
+</view>
