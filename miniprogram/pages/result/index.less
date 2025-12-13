@@ -16,6 +16,45 @@
     }
 }
 
+.hint-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    
+    .hint-card {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 60rpx;
+        border-radius: 20rpx;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        box-shadow: 0 10rpx 30rpx rgba(0,0,0,0.2);
+        animation: fadeIn 0.8s ease-out;
+
+        .icon {
+            font-size: 100rpx;
+            margin-bottom: 30rpx;
+        }
+
+        .main-text {
+            font-size: 40rpx;
+            font-weight: bold;
+            color: @christmasRed;
+            margin-bottom: 20rpx;
+        }
+
+        .sub-text {
+            font-size: 28rpx;
+            color: #666;
+            text-align: center;
+            max-width: 500rpx;
+            line-height: 1.5;
+        }
+    }
+}
+
 .pair-container {
     display: flex;
     align-items: center;

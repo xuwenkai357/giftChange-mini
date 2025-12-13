@@ -1,43 +1,58 @@
 <view class="container result-page">
   <view class="snow-bg"></view>
   
-  <view class="header" wx:if="{{showGift}}">
-    <text class="title">✨ 配对成功 ✨</text>
-  </view>
-
-  <view class="pair-container {{animationStarted ? 'animate' : ''}}">
-    <!-- Left User -->
-    <view class="user-card left">
-        <image class="avatar" src="{{pairInfo.user1.avatar}}" mode="aspectFill"></image>
-        <view class="info" wx:if="{{showGift}}">
-            <text class="name">{{pairInfo.user1.callName}}</text>
-            <view class="tag {{pairInfo.user1.hasGift ? 'has-gift' : 'no-gift'}}">
-                {{pairInfo.user1.hasGift ? '🎁 已备好礼物' : '🤷 还没准备'}}
-            </view>
+  <!-- Case 1: No Gift / Warm Hint -->
+  <block wx:if="{{isNoGift}}">
+    <view class="header">
+      <text class="title">✨ 配对成功 ✨</text>
+    </view>
+    <view class="hint-container">
+        <view class="hint-card">
+            <view class="icon">🎁</view>
+            <text class="main-text">配对成功！</text>
+            <text class="sub-text">请前往接待人员处领取特别温暖。</text>
         </view>
     </view>
+  </block>
 
-    <!-- Gift Icon (Appears in middle) -->
-    <view class="gift-icon {{showGift ? 'show' : ''}}">
-        🎁
-    </view>
+  <!-- Case 2: Matched with Gift -->
+  <block wx:else>
+      <view class="header" wx:if="{{showGift}}">
+        <text class="title">✨ 配对成功 ✨</text>
+      </view>
 
-    <!-- Right User -->
-    <view class="user-card right">
-        <image class="avatar" src="{{pairInfo.user2.avatar}}" mode="aspectFill"></image>
-        <view class="info" wx:if="{{showGift}}">
-            <text class="name">{{pairInfo.user2.callName}}</text>
-            <view class="tag {{pairInfo.user2.hasGift ? 'has-gift' : 'no-gift'}}">
-                {{pairInfo.user2.hasGift ? '🎁 已备好礼物' : '🤷 还没准备'}}
+      <view class="pair-container {{animationStarted ? 'animate' : ''}}">
+        <!-- Left User (Me) -->
+        <view class="user-card left">
+            <image class="avatar" src="{{pairInfo.user1.avatar}}" mode="aspectFill"></image>
+            <view class="info" wx:if="{{showGift}}">
+                <text class="name">{{pairInfo.user1.name}}</text>
+                <view class="tag has-gift">
+                    🎁 已备好礼物
+                </view>
             </view>
         </view>
-    </view>
-  </view>
 
-  <view class="footer-tips" wx:if="{{showGift}}">
-    <view class="tip-box" wx:if="{{!pairInfo.user1.hasGift || !pairInfo.user2.hasGift}}">
-       ⚠️ <text>请未携带礼物的小伙伴前往后方接待处领取备用礼物哦！</text>
-    </view>
-    <text class="wish">Merry Christmas!</text>
-  </view>
+        <!-- Gift Icon (Appears in middle) -->
+        <view class="gift-icon {{showGift ? 'show' : ''}}">
+            🎁
+        </view>
+
+        <!-- Right User (Partner) -->
+        <view class="user-card right">
+            <image class="avatar" src="{{pairInfo.user2.avatar}}" mode="aspectFill"></image>
+            <view class="info" wx:if="{{showGift}}">
+                <text class="name">{{pairInfo.user2.name}}</text>
+                <!-- Partner gift status is always assumed YES/Hidden since we are here -->
+                 <view class="tag has-gift">
+                    🎁 准备交换！
+                </view>
+            </view>
+        </view>
+      </view>
+
+      <view class="footer-tips" wx:if="{{showGift}}">
+        <text class="wish">Merry Christmas!</text>
+      </view>
+  </block>
 </view>

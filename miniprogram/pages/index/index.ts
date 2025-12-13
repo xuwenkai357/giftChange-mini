@@ -1,4 +1,4 @@
-import { mockApi } from '../../utils/mock';
+import { api } from '../../utils/api';
 
 Page({
   data: {
@@ -15,37 +15,37 @@ Page({
     this.setData({ loading: true });
 
     try {
-      // 1. Login
-      const loginRes = await wx.login();
-      if (!loginRes.code) {
-        throw new Error('Login failed');
-      }
-
-      // Simulate getting openid and persistence
+      // 1. Check for stored openid
       let openid = wx.getStorageSync('openid');
       if (!openid) {
-        openid = 'mock_openid_' + Math.floor(Math.random() * 10000);
-        wx.setStorageSync('openid', openid);
+        // If openid is missing (maybe onLaunch hasn't finished or failed),
+        // we might need to prompt user or wait.
+        // For now, assume it should be there.
+        const res = await wx.getStorage({ key: 'openid' }).catch(() => ({ data: '' }));
+        if (res.data) openid = res.data;
+        else throw new Error('OpenID not found. Please wait or restart.');
       }
 
       // 2. Check Status
-      const res = await mockApi.checkStatus(openid);
+      const res = await api.getUserEventStatus(openid);
 
-      if (res.code === 0) {
-        const { isSubmitted, isPaired } = res.data;
+      if (res) {
+        const { state, my_info } = res;
 
         let url = '/pages/form/index';
-        if (isPaired) {
-          // Fetch pair info to pass to result
-          const pairRes = await mockApi.getPairInfo(openid);
-          if (pairRes.data) {
-            url = `/pages/result/index?pair=${encodeURIComponent(JSON.stringify(pairRes.data))}`;
-          } else {
-            // Fallback if data missing
-            url = '/pages/waiting/index';
-          }
-        } else if (isSubmitted) {
+
+        if (state === 'UNREGISTERED') {
+          url = '/pages/form/index';
+        } else if (state === 'PENDING') {
           url = '/pages/waiting/index';
+        } else if (state === 'MATCHED') {
+          if (my_info && my_info.has_gift === 1) {
+            // Pass partner info to result page
+            url = `/pages/result/index?pair=${encodeURIComponent(JSON.stringify(res))}`;
+          } else {
+            // No gift, show special hint (or handle in result page via type param)
+            url = `/pages/result/index?type=no_gift`;
+          }
         }
 
         wx.navigateTo({ url });
