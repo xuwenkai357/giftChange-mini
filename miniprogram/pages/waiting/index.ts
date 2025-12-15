@@ -1,9 +1,31 @@
 import { api } from '../../utils/api';
+import lottie from 'lottie-miniprogram';
+import Christmas_Tree from '../../lottie/Christmas_Tree.js';
 
 Page({
   data: {
     dots: '...',
     timer: null as number | null
+  },
+
+  onReady() {
+    this.createSelectorQuery().select('#lottie-canvas').node(res => {
+      const canvas = res.node
+      const context = canvas.getContext('2d')
+
+      lottie.setup(canvas)
+
+      lottie.loadAnimation({
+        loop: true,
+        autoplay: true,
+        // animationData: Christmas_Tree, // 本地 JSON 路径
+
+        path: 'https://p.qpaimg.com/uploads/wqDqXE.json',
+        rendererSettings: {
+          context,
+        },
+      })
+    }).exec()
   },
 
   onLoad() {

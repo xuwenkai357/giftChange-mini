@@ -8,6 +8,7 @@
     <view class="tree-part middle"></view>
     <view class="tree-part bottom"></view>
     <view class="trunk"></view>
+    <canvas id="lottie-canvas" type="2d" style="width: 600px; height: 300px;"></canvas>
   </view>
 
   <view class="loading-text">
