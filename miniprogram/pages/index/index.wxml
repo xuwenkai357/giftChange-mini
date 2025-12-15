@@ -1,23 +1,16 @@
 <view class="container index-page">
   <view class="snow-bg"></view>
-  
   <view class="content">
     <view class="logo-area">
       <view class="bell">🔔</view>
-      <text class="title">Christmas Gift Change</text>
-      <text class="subtitle">圣诞礼物交换计划</text>
+      <text class="title">圣诞礼物交换计划</text>
+      <text class="subtitle">Christmas Gift Exchange</text>
     </view>
-    
-    <button 
-      class="start-btn" 
-      bindtap="onStart"
-      loading="{{loading}}"
-    >
+    <button class="start-btn" bindtap="onStart" loading="{{loading}}">
       {{loading ? '正在连接...' : '开始我的交换之旅'}}
     </button>
   </view>
-  
   <view class="footer">
-    <text>Designed for Xmas 2025</text>
+    <!-- <text>Designed for Xmas 2025</text> -->
   </view>
 </view>

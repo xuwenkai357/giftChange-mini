@@ -1,21 +1,18 @@
 <view class="container waiting-page">
   <view class="snow-bg"></view>
-  
   <view class="tree-container">
     <!-- Simple CSS Tree Shape -->
-    <view class="star">⭐</view>
+    <!-- <view class="star">⭐</view>
     <view class="tree-part top"></view>
     <view class="tree-part middle"></view>
     <view class="tree-part bottom"></view>
-    <view class="trunk"></view>
+    <view class="trunk"></view> -->
     <canvas id="lottie-canvas" type="2d" style="width: 600px; height: 300px;"></canvas>
   </view>
-
   <view class="loading-text">
     <text>等待礼物交换配对生成{{dots}}</text>
   </view>
-  
-  <view class="tips">
+  <!-- <view class="tips">
     <text>正在寻找你的有缘人...</text>
-  </view>
+  </view> -->
 </view>

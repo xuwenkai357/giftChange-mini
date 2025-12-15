@@ -5,26 +5,40 @@ import Christmas_Tree from '../../lottie/Christmas_Tree.js';
 Page({
   data: {
     dots: '...',
-    timer: null as number | null
+    timer: null as number | null,
+    animation: null as any
   },
 
   onReady() {
     this.createSelectorQuery().select('#lottie-canvas').node(res => {
+      const width = 600
+      const height = 300
+
       const canvas = res.node
       const context = canvas.getContext('2d')
+
+      // 设置 canvas 的宽度和高度，以适应不同设备的像素比
+      const dpr = wx.getSystemInfoSync().pixelRatio
+      canvas.width = width * dpr
+      canvas.height = height * dpr
+      context.scale(dpr, dpr)
 
       lottie.setup(canvas)
 
       lottie.loadAnimation({
         loop: true,
         autoplay: true,
-        // animationData: Christmas_Tree, // 本地 JSON 路径
-
-        path: 'https://p.qpaimg.com/uploads/wqDqXE.json',
+        animationData: Christmas_Tree, // 本地 JSON 路径
+        // path: 'https://lottie.host/d4d69915-73a1-492b-a762-cfcaba84226d/LkSDJo0gAq.json',
+        // path: 'https://p.qpaimg.com/uploads/wqDqXE.json',
         rendererSettings: {
           context,
         },
       })
+
+      // this.setData({
+      //   animation
+      // })
     }).exec()
   },
 
@@ -35,6 +49,9 @@ Page({
 
   onUnload() {
     this.stopPolling();
+    if (this.data.animation) {
+      this.data.animation.destroy();
+    }
   },
 
   animateDots() {
