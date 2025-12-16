@@ -1,0 +1,36 @@
+<view class="container">
+  <view class="header">
+    用户列表
+    <text class="sub-header" wx:if="{{noGiftCount > 0}}">({{noGiftCount}}人未带礼物)</text>
+  </view>
+  <view wx:if="{{loading}}" class="loading">加载中...</view>
+  <block wx:else>
+    <view class="user-list">
+      <view class="user-item" wx:for="{{userList}}" wx:key="unique_id" wx:for-index="idx">
+        <view class="user-content-left">
+          <image class="avatar" src="{{item.avatar_url || '/images/default-avatar.png'}}" mode="aspectFill"></image>
+          <view class="text-info">
+            <view class="name-row">
+              <view class="nickname">{{item.wx_nickname}}</view>
+            </view>
+            <view class="preferred-name" wx:if="{{item.preferred_name}}">
+              {{item.preferred_name}}
+            </view>
+            <view class="status-row">
+              <view class="status-tag {{item.match_status}}">{{item.display_status}}</view>
+              <view class="gift-tag {{item.has_gift === 1 ? 'has-gift' : 'no-gift'}}">
+                {{item.display_gift}}
+              </view>
+            </view>
+          </view>
+        </view>
+        <view class="actions">
+          <button class="delete-btn" size="mini" type="warn" bindtap="onDelete" data-index="{{idx}}" disabled="{{item.is_matched}}">
+            删除
+          </button>
+        </view>
+      </view>
+    </view>
+    <view wx:if="{{userList.length === 0}}" class="empty-state">暂无用户</view>
+  </block>
+</view>

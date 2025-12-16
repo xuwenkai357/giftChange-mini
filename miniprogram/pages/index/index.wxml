@@ -10,7 +10,7 @@
       {{loading ? '正在连接...' : '开始我的交换之旅'}}
     </button>
   </view>
-  <view class="footer">
-    <!-- <text>Designed for Xmas 2025</text> -->
+  <view class="footer" bindtap="navigateToUserList">
+    <text>诞愿祢来</text>
   </view>
 </view>

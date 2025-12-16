@@ -3,7 +3,8 @@
     "pages/index/index",
     "pages/form/index",
     "pages/waiting/index",
-    "pages/result/index"
+    "pages/result/index",
+    "pages/user-list/index"
   ],
   "window": {
     "backgroundTextStyle": "light",

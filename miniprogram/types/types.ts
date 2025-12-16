@@ -46,6 +46,23 @@ export interface UserEventStatusResponse {
   } | null;
 }
 
+export interface UserListResponse {
+  /**
+   * id, wx_nickname, preferred_name, avatar_url, has_gift, match_status, pair_code
+   */
+  list: User[];
+}
+
+export interface User {
+  id: string;
+  wx_nickname: string;
+  preferred_name: string;
+  avatar_url: string;
+  has_gift: number;
+  match_status: string;
+  pair_code: string;
+}
+
 export interface RegistrationParams {
   openid: string;
   wx_nickname?: string;

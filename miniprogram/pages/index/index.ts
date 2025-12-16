@@ -57,5 +57,16 @@ Page({
     } finally {
       this.setData({ loading: false });
     }
+  },
+
+  navigateToUserList() {
+    let openid = wx.getStorageSync('openid');
+    // 指定的几个人才能进入页面
+    if (['odrYG7eTGeeaZUsYYUTTuDfM1-fU', 'odrYG7T9-P0i0uU0o8jIjZXpjfT0', 'odrYG7cD5W4p_8hJ_jJkN55G461g'].includes(openid)) {
+      wx.navigateTo({
+        url: '/pages/user-list/index'
+      });
+    }
+
   }
 });

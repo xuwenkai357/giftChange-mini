@@ -1,0 +1,146 @@
+.container {
+  padding: 20rpx 40rpx;
+  background-color: #f8f8f8;
+  min-height: 100vh;
+}
+
+.header {
+  font-size: 36rpx;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 30rpx;
+  color: #333;
+}
+
+.sub-header {
+  font-size: 28rpx;
+  color: #ff4d4f;
+  font-weight: normal;
+  margin-left: 10rpx;
+}
+
+.loading,
+.empty-state {
+  text-align: center;
+  margin-top: 50rpx;
+  color: #888;
+}
+
+.user-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+  width: 100%;
+}
+
+.user-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  padding: 24rpx;
+  border-radius: 16rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.05);
+  /* width: 100%; */
+  flex: 1;
+}
+
+.user-content-left {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+  flex: 1;
+  overflow: hidden;
+  /* Prevent text overflow */
+}
+
+.avatar {
+  width: 90rpx;
+  height: 90rpx;
+  border-radius: 50%;
+  background-color: #eee;
+  flex-shrink: 0;
+}
+
+.text-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+  /* flex: 1; */
+}
+
+.name-row {
+  display: flex;
+  align-items: center;
+  /* justify-content: center; */
+  /* flex-wrap: wrap; */
+  gap: 8rpx;
+}
+
+.nickname {
+  font-size: 32rpx;
+  color: #333;
+  font-weight: 600;
+}
+
+.preferred-name {
+  font-size: 26rpx;
+  color: #666;
+}
+
+.status-row {
+  display: flex;
+}
+
+.status-tag {
+  font-size: 22rpx;
+  padding: 4rpx 12rpx;
+  border-radius: 8rpx;
+  background-color: #f0f0f0;
+  color: #666;
+}
+
+.status-tag.MATCHED {
+  background-color: #e6f7ff;
+  color: #1890ff;
+}
+
+.status-tag.PENDING {
+  background-color: #fff7e6;
+  color: #fa8c16;
+}
+
+.gift-tag {
+  font-size: 22rpx;
+  padding: 4rpx 12rpx;
+  border-radius: 8rpx;
+  margin-left: 12rpx;
+}
+
+.gift-tag.has-gift {
+  background-color: #f6ffed;
+  color: #52c41a;
+}
+
+.gift-tag.no-gift {
+  background-color: #fff1f0;
+  color: #ff4d4f;
+}
+
+.actions {
+  margin-left: 24rpx;
+  flex-shrink: 0;
+}
+
+.delete-btn {
+  font-size: 24rpx;
+  padding: 8rpx 24rpx;
+  line-height: 2.4;
+  /* Better vertical centering for default button */
+  margin: 0;
+}
+
+.delete-btn[disabled] {
+  background-color: #f5f5f5 !important;
+  color: #ccc !important;
+}
