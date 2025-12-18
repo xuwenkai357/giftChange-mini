@@ -12,9 +12,9 @@
       </button>
       <text class="tip">点击设置头像</text>
     </view>
-    <view class="form-item">
+    <view class="form-item" catch:touchstart="handleTouchInput">
       <text class="label">微信昵称</text>
-      <input type="nickname" class="input" placeholder="请输入昵称" bind:change="onNickNameChange" value="{{userInfo.nickName}}" />
+      <input type="nickname" class="input" placeholder="请输入昵称" bind:change="onNickNameChange" value="{{userInfo.nickName}}" focus="{{focus}}" />
     </view>
     <view class="form-item">
       <text class="label">希望对方怎么称呼你？</text>

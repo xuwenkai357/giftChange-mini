@@ -1,0 +1,60 @@
+<view class="container">
+    <view class="header">
+        <text class="title">配对预览</text>
+        <text class="subtitle">请确认以下配对信息</text>
+    </view>
+    <!-- 可滚动内容区域 -->
+    <scroll-view class="scroll-content" scroll-y="true" enhanced="true" show-scrollbar="true">
+        <!-- A 组：带礼物配对 -->
+        <view class="group-section group-a" wx:if="{{groupA.length > 0}}">
+            <view class="group-header">
+                <view class="group-icon">🎁</view>
+                <view class="group-title">A组 - 礼物交换配对</view>
+                <view class="group-count">{{groupA.length}}组配对</view>
+            </view>
+            <view class="pair-card" wx:for="{{groupA}}" wx:key="pairCode">
+                <view class="pair-code-badge">{{item.pairCode}}</view>
+                <view class="pair-users">
+                    <view class="pair-user" wx:for="{{item.users}}" wx:for-item="user" wx:key="id">
+                        <image class="user-avatar" src="{{user.avatar_url || '/images/default-avatar.png'}}" mode="aspectFill"></image>
+                        <view class="user-info">
+                            <text class="user-name">{{user.wx_nickname}}</text>
+                            <text class="user-sub" wx:if="{{user.preferred_name}}">
+                                {{user.preferred_name}}
+                            </text>
+                        </view>
+                    </view>
+                    <view class="exchange-icon">⇄</view>
+                </view>
+            </view>
+        </view>
+        <!-- B 组：无礼物用户 -->
+        <view class="group-section group-b" wx:if="{{groupB.length > 0}}">
+            <view class="group-header group-header-b">
+                <view class="group-icon">👋</view>
+                <view class="group-title">B组 - 现场分配</view>
+                <view class="group-count">{{groupB.length}}人</view>
+            </view>
+            <view class="b-users-list">
+                <view class="b-user-item" wx:for="{{groupB}}" wx:key="id">
+                    <image class="user-avatar-small" src="{{item.avatar_url || '/images/default-avatar.png'}}" mode="aspectFill"></image>
+                    <text class="user-name-small">{{item.wx_nickname}}</text>
+                    <text class="user-sub-small" wx:if="{{item.preferred_name}}">
+                        {{item.preferred_name}}
+                    </text>
+                </view>
+            </view>
+        </view>
+        <!-- 空状态 -->
+        <view wx:if="{{groupA.length === 0 && groupB.length === 0}}" class="empty-state">
+            <text>暂无配对数据</text>
+        </view>
+    </scroll-view>
+    <!-- 底部按钮 -->
+    <view class="bottom-actions">
+        <button class="btn btn-secondary" bindtap="onRegenerate" disabled="{{submitting}}">
+            重新分配
+        </button>
+        <button class="btn btn-primary" bindtap="onConfirm" loading="{{submitting}}">确认分配</button>
+    </view>
+</view>

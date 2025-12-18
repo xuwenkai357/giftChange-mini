@@ -10,7 +10,8 @@ Page({
       nickName: ''
     },
     defaultAvatarUrl: 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0',
-    loading: false
+    loading: false,
+    focus: false,
   },
 
   onLoad() {
@@ -28,11 +29,11 @@ Page({
     try {
       const openid = wx.getStorageSync('openid');
       if (!openid) {
-        wx.showToast({ title: 'OpenID not found, cannot upload', icon: 'none' });
+        wx.showToast({ title: 'OpenId获取失败', icon: 'none' });
         return;
       }
 
-      wx.showLoading({ title: 'Uploading...' });
+      wx.showLoading({ title: '上传中...' });
 
       const fs = wx.getFileSystemManager();
       const base64 = fs.readFileSync(avatarUrl, 'base64');
@@ -45,10 +46,10 @@ Page({
         'userInfo.avatarUrl': remoteUrl.replace('http://', 'https://')
       });
 
-      wx.showToast({ title: 'Uploaded', icon: 'success' });
+      wx.showToast({ title: '上传成功', icon: 'success' });
     } catch (error: any) {
       console.error('Avatar upload failed:', error);
-      wx.showToast({ title: 'Upload failed', icon: 'none' });
+      wx.showToast({ title: '上传失败', icon: 'none' });
     } finally {
       wx.hideLoading();
     }
@@ -96,7 +97,7 @@ Page({
 
       // Get OpenID (In real app, backend helper. Here simply mock or retrieve from storage if simulated)
       const openid = wx.getStorageSync('openid');
-      if (!openid) throw new Error('OpenID not found');
+      if (!openid) throw new Error('OpenID获取失败');
 
       await api.submitRegistration({
         openid,
@@ -119,5 +120,25 @@ Page({
     } finally {
       this.setData({ loading: false });
     }
-  }
+  },
+  handleTouchInput() {
+    if (wx.requirePrivacyAuthorize) {
+      wx.requirePrivacyAuthorize({
+        success: res => {
+          console.log('用户同意了隐私协议 或 无需用户同意隐私协议')
+          // 用户同意隐私协议后给昵称input聚焦
+          this.setData({
+            focus: true
+          })
+        },
+        fail: res => {
+          console.log('用户拒绝了隐私协议')
+        }
+      })
+    } else {
+      this.setData({
+        focus: true
+      })
+    }
+  },
 });

@@ -61,6 +61,7 @@ export interface User {
   has_gift: number;
   match_status: string;
   pair_code: string;
+  matched_target_id: string;
 }
 
 export interface RegistrationParams {
@@ -83,4 +84,30 @@ export interface RegistrationResult {
   matched_target_id: string | null;
   pair_code: string | null;
   create_time: string;
+}
+
+// 单个配对项的数据结构
+export interface PairItem {
+  /** 当前用户的 ID (数据库主键) */
+  id: number;
+  /** 配对目标的 ID (对方的数据库主键) */
+  matched_target_id: number;
+  /** 配对组编号 (例如 "A", "B", "GROUP-1") */
+  pair_code?: string;
+}
+
+// 接口请求参数结构
+export interface SubmitPairsRequest {
+  /** 配对列表数组 */
+  pairs: PairItem[];
+}
+
+// 接口响应结构
+export interface SubmitPairsResponse {
+  err_code: number;
+  err_msg: string;
+  data: {
+    total_received: number;
+    processed_count: number;
+  };
 }

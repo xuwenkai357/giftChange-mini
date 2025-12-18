@@ -1,36 +1,69 @@
 <view class="container">
-  <view class="header">
-    用户列表
-    <text class="sub-header" wx:if="{{noGiftCount > 0}}">({{noGiftCount}}人未带礼物)</text>
+  <view class="header">用户列表</view>
+  <!-- 统计信息卡片 -->
+  <view class="stats-container">
+    <view class="stat-item total">
+      <view class="stat-value">{{totalCount || 0}}</view>
+      <view class="stat-label">总人数</view>
+    </view>
+    <view class="stat-item has-gift">
+      <view class="stat-value">{{giftCount || 0}}</view>
+      <view class="stat-label">已带礼物</view>
+    </view>
+    <view class="stat-item no-gift">
+      <view class="stat-value">{{noGiftCount || 0}}</view>
+      <view class="stat-label">未带礼物</view>
+    </view>
   </view>
   <view wx:if="{{loading}}" class="loading">加载中...</view>
   <block wx:else>
-    <view class="user-list">
-      <view class="user-item" wx:for="{{userList}}" wx:key="unique_id" wx:for-index="idx">
-        <view class="user-content-left">
-          <image class="avatar" src="{{item.avatar_url || '/images/default-avatar.png'}}" mode="aspectFill"></image>
-          <view class="text-info">
-            <view class="name-row">
-              <view class="nickname">{{item.wx_nickname}}</view>
-            </view>
-            <view class="preferred-name" wx:if="{{item.preferred_name}}">
-              {{item.preferred_name}}
-            </view>
-            <view class="status-row">
-              <view class="status-tag {{item.match_status}}">{{item.display_status}}</view>
-              <view class="gift-tag {{item.has_gift === 1 ? 'has-gift' : 'no-gift'}}">
-                {{item.display_gift}}
+    <scroll-view class="user-list" scroll-y="true" enhanced="true" show-scrollbar="true" wx:if="{{userList.length > 0}}">
+      <view class="user-item-wrapper" wx:for="{{userList}}" wx:key="unique_id" wx:for-index="idx">
+        <view class="user-item">
+          <view class="user-content-left">
+            <image class="avatar" src="{{item.avatar_url || '/images/default-avatar.png'}}" mode="aspectFill"></image>
+            <view class="text-info">
+              <view class="name-row">
+                <view class="nickname">{{item.wx_nickname}}</view>
+              </view>
+              <view class="preferred-name" wx:if="{{item.preferred_name}}">
+                {{item.preferred_name}}
+              </view>
+              <view class="status-row">
+                <view class="status-tag {{item.match_status}}">
+                  {{item.display_status}} {{item.pair_code}}
+                </view>
+                <view class="gift-tag {{item.has_gift === 1 ? 'has-gift' : 'no-gift'}}">
+                  {{item.display_gift}}
+                </view>
               </view>
             </view>
           </view>
+          <view class="actions">
+            <button class="delete-btn" size="mini" type="warn" bindtap="onDelete" data-index="{{idx}}" disabled="{{item.is_matched}}">
+              删除
+            </button>
+          </view>
         </view>
-        <view class="actions">
-          <button class="delete-btn" size="mini" type="warn" bindtap="onDelete" data-index="{{idx}}" disabled="{{item.is_matched}}">
-            删除
-          </button>
+        <!-- 显示配对对象信息 -->
+        <view class="matched-partner" wx:if="{{item.matched_user_info}}">
+          <view class="partner-label">配对对象：</view>
+          <view class="partner-info">
+            <image class="partner-avatar" src="{{item.matched_user_info.avatar_url || '/images/default-avatar.png'}}" mode="aspectFill"></image>
+            <view class="partner-name">{{item.matched_user_info.wx_nickname}}</view>
+            <view class="partner-preferred-name" wx:if="{{item.matched_user_info.preferred_name}}">
+              ({{item.matched_user_info.preferred_name}})
+            </view>
+          </view>
         </view>
       </view>
-    </view>
+    </scroll-view>
     <view wx:if="{{userList.length === 0}}" class="empty-state">暂无用户</view>
   </block>
+  <!-- 底部固定按钮 -->
+  <view class="bottom-btn-container">
+    <button class="generate-match-btn" type="primary" bindtap="onGenerateMatch" loading="{{generating}}">
+      生成匹配信息
+    </button>
+  </view>
 </view>

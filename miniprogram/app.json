@@ -4,7 +4,8 @@
     "pages/form/index",
     "pages/waiting/index",
     "pages/result/index",
-    "pages/user-list/index"
+    "pages/user-list/index",
+    "pages/match-confirm/index"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -23,5 +24,6 @@
   },
   "componentFramework": "glass-easel",
   "sitemapLocation": "sitemap.json",
-  "lazyCodeLoading": "requiredComponents"
+  "lazyCodeLoading": "requiredComponents",
+  "__usePrivacyCheck__": true
 }

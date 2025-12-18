@@ -1,22 +1,64 @@
 .container {
+  display: flex;
+  flex-direction: column;
   padding: 20rpx 40rpx;
+  padding-bottom: 200rpx;
   background-color: #f8f8f8;
-  min-height: 100vh;
+  height: 100vh;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 .header {
   font-size: 36rpx;
   font-weight: bold;
   text-align: center;
-  margin-bottom: 30rpx;
+  margin-bottom: 20rpx;
   color: #333;
+  flex-shrink: 0;
 }
 
-.sub-header {
-  font-size: 28rpx;
+/* 统计信息卡片 */
+.stats-container {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(150rpx, 1fr));
+  /* justify-content: space-between; */
+  gap: 16rpx;
+  margin-bottom: 24rpx;
+  flex-shrink: 0;
+}
+
+.stat-item {
+  flex: 1;
+  background-color: #fff;
+  border-radius: 16rpx;
+  padding: 20rpx 16rpx;
+  text-align: center;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.05);
+}
+
+.stat-value {
+  font-size: 44rpx;
+  font-weight: bold;
+  margin-bottom: 8rpx;
+}
+
+.stat-label {
+  font-size: 24rpx;
+  color: #888;
+}
+
+.stat-item.total .stat-value {
+  color: #1890ff;
+}
+
+.stat-item.has-gift .stat-value {
+  color: #52c41a;
+}
+
+.stat-item.no-gift .stat-value {
   color: #ff4d4f;
-  font-weight: normal;
-  margin-left: 10rpx;
 }
 
 .loading,
@@ -27,10 +69,13 @@
 }
 
 .user-list {
-  display: flex;
-  flex-direction: column;
-  gap: 20rpx;
+  flex: 1;
   width: 100%;
+  overflow: hidden;
+}
+
+.user-list .user-item:not(:last-child) {
+  margin-bottom: 20rpx;
 }
 
 .user-item {
@@ -143,4 +188,73 @@
 .delete-btn[disabled] {
   background-color: #f5f5f5 !important;
   color: #ccc !important;
+}
+
+/* 底部固定按钮 */
+.bottom-btn-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20rpx 40rpx;
+  padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
+  background-color: #fff;
+  box-shadow: 0 -4rpx 12rpx rgba(0, 0, 0, 0.08);
+}
+
+.generate-match-btn {
+  width: 100%;
+  border-radius: 12rpx;
+  font-size: 32rpx;
+  font-weight: 600;
+}
+
+/* 用户项包装器 */
+.user-item-wrapper {
+  margin-bottom: 20rpx;
+}
+
+/* 配对对象信息区域 */
+.matched-partner {
+  margin-top: 12rpx;
+  padding: 16rpx 24rpx;
+  background-color: #e6f7ff;
+  border-radius: 12rpx;
+  border-left: 4rpx solid #1890ff;
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.partner-label {
+  font-size: 24rpx;
+  color: #1890ff;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.partner-info {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  flex: 1;
+}
+
+.partner-avatar {
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 50%;
+  background-color: #eee;
+  flex-shrink: 0;
+}
+
+.partner-name {
+  font-size: 26rpx;
+  color: #333;
+  font-weight: 500;
+}
+
+.partner-preferred-name {
+  font-size: 24rpx;
+  color: #666;
 }

@@ -1,4 +1,4 @@
-import { UserEventStatusResponse, RegistrationParams, RegistrationResult, UserListResponse } from '../types/types';
+import { UserEventStatusResponse, RegistrationParams, RegistrationResult, UserListResponse, SubmitPairsRequest, SubmitPairsResponse } from '../types/types';
 
 export const API_CONFIG = {
   baseUrl: 'https://yesapi.txrczx.cn/',
@@ -168,6 +168,34 @@ export const api = {
             // The API returns state: UNREGISTERED in data normally, so we resolve it.
             // But if err_code != 0, it's a real error.
             reject(new Error(data.msg || data.data?.err_msg || 'Request failed'));
+          }
+        },
+        fail: (err) => {
+          reject(err);
+        }
+      });
+    });
+  },
+
+  /**
+   * Submit pairs to backend
+   * @param params SubmitPairsRequest
+   */
+  submitPairsToBackend: (params: SubmitPairsRequest): Promise<SubmitPairsResponse> => {
+    return new Promise((resolve, reject) => {
+      wx.request({
+        url: API_CONFIG.baseUrl + `?s=SVIP.Sxuwenkai357_MyApi.ASubmitPairsDirect&return_data=0&app_key=${API_CONFIG.appKey}&sign=${API_CONFIG.sign}`,
+        method: 'POST',
+        header: {
+          'content-type': 'application/json'
+        },
+        data: params,
+        success: (res: WechatMiniprogram.RequestSuccessCallbackResult) => {
+          const data = res.data as any;
+          if (data.ret === 200 && data.data.err_code === 0) {
+            resolve(data.data.data);
+          } else {
+            reject(new Error(data.msg || data.data?.err_msg || 'Submit pairs failed'));
           }
         },
         fail: (err) => {
