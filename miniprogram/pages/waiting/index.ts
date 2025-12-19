@@ -1,6 +1,10 @@
 import { api } from '../../utils/api';
 import lottie from 'lottie-miniprogram';
 import Christmas_Tree from '../../lottie/Christmas_Tree.js';
+import Christmas_wreath from '../../lottie/Christmas_wreath.js';
+
+// 动画列表
+const animations = [Christmas_Tree, Christmas_wreath];
 
 Page({
   data: {
@@ -26,10 +30,14 @@ Page({
 
       lottie.setup(canvas)
 
+      // 随机选择一个动画
+      const randomIndex = Math.floor(Math.random() * animations.length);
+      const selectedAnimation = animations[randomIndex];
+
       const animation = lottie.loadAnimation({
         loop: true,
         autoplay: true,
-        animationData: Christmas_Tree, // 本地 JSON 路径
+        animationData: selectedAnimation, // 随机选择的动画数据
         // path: 'https://lottie.host/d4d69915-73a1-492b-a762-cfcaba84226d/LkSDJo0gAq.json',
         // path: 'https://p.qpaimg.com/uploads/wqDqXE.json',
         rendererSettings: {
