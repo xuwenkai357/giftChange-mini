@@ -5,9 +5,10 @@ import Christmas_Tree from '../../lottie/Christmas_Tree.js';
 Page({
   data: {
     dots: '...',
-    timer: null as number | null,
-    animation: null as any
+    timer: null as number | null
   },
+
+  animation: null as any,
 
   onReady() {
     this.createSelectorQuery().select('#lottie-canvas').node(res => {
@@ -25,7 +26,7 @@ Page({
 
       lottie.setup(canvas)
 
-      lottie.loadAnimation({
+      const animation = lottie.loadAnimation({
         loop: true,
         autoplay: true,
         animationData: Christmas_Tree, // 本地 JSON 路径
@@ -36,9 +37,8 @@ Page({
         },
       })
 
-      // this.setData({
-      //   animation
-      // })
+      // 直接存储在 this 上，不要使用 setData（避免序列化复杂对象）
+      this.animation = animation
     }).exec()
   },
 
@@ -49,8 +49,8 @@ Page({
 
   onUnload() {
     this.stopPolling();
-    if (this.data.animation) {
-      this.data.animation.destroy();
+    if (this.animation) {
+      this.animation.destroy();
     }
   },
 
