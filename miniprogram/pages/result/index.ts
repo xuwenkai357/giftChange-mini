@@ -4,8 +4,11 @@ Page({
   data: {
     pairInfo: null as any,
     isNoGift: false,
-    animationStarted: false,
-    showGift: false
+    showGift: false,
+    // Animation phases: '' -> 'collide' -> 'bounce-back' -> 'final'
+    animationPhase: '',
+    // Gift phases: '' -> 'throw-up' -> 'fall-down' -> 'swing'
+    giftPhase: ''
   },
 
   onLoad(options: { pair?: string, type?: string }) {
@@ -28,27 +31,57 @@ Page({
           user2: {
             name: res.partner_info?.preferred_name || 'Mystery Reindeer',
             avatar: res.partner_info?.avatar_url || '',
-            // Partner gift status unknown/irrelevant for this view
           }
         };
 
         this.setData({ pairInfo });
 
-        // Start animation after a short delay
-        setTimeout(() => {
-          this.setData({ animationStarted: true });
-
-          // Show gift result after collision animation
-          setTimeout(() => {
-            this.setData({ showGift: true });
-          }, 2000);
-        }, 500);
+        // Start the multi-phase animation sequence
+        this.startAnimationSequence();
 
       } catch (e) {
         console.error('Failed to parse pair info', e);
         wx.showToast({ title: '配对信息错误', icon: 'none' });
       }
     }
+  },
+
+  /**
+   * Multi-phase animation sequence:
+   * 1. Avatars slide in and collide in the center (600ms)
+   * 2. Gift is thrown up from collision point (start at collision, 800ms)
+   * 3. Avatars bounce back to final positions (500ms, starts with gift throw)
+   * 4. Gift falls down (600ms)
+   * 5. Gift swings left and right (infinite loop)
+   * 6. Show user info and footer
+   */
+  startAnimationSequence() {
+    // Phase 1: Collide (600ms)
+    setTimeout(() => {
+      this.setData({ animationPhase: 'collide' });
+    }, 300);
+
+    // Phase 2: At collision moment - throw gift up + bounce back avatars
+    setTimeout(() => {
+      this.setData({
+        animationPhase: 'bounce-back',
+        giftPhase: 'throw-up'
+      });
+    }, 900); // 300 + 600 = collision complete
+
+    // Phase 3: Gift falls down
+    setTimeout(() => {
+      this.setData({ giftPhase: 'fall-down' });
+    }, 1700); // 900 + 800 = throw up complete
+
+    // Phase 4: Gift starts swinging + show final state
+    setTimeout(() => {
+      this.setData({
+        animationPhase: 'final',
+        giftPhase: 'swing',
+        showGift: true
+      });
+    }, 2300); // 1700 + 600 = fall down complete
   },
 
   onShareAppMessage() {

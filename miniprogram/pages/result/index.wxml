@@ -1,58 +1,46 @@
 <view class="container result-page">
   <view class="snow-bg"></view>
-  
   <!-- Case 1: No Gift / Warm Hint -->
   <block wx:if="{{isNoGift}}">
     <view class="header">
       <text class="title">✨ 配对成功 ✨</text>
     </view>
     <view class="hint-container">
-        <view class="hint-card">
-            <view class="icon">🎁</view>
-            <text class="main-text">配对成功！</text>
-            <text class="sub-text">请前往接待人员处领取特别温暖。</text>
-        </view>
+      <view class="hint-card">
+        <view class="icon">🎁</view>
+        <text class="main-text">配对成功！</text>
+        <text class="sub-text">请前往接待人员处领取特别温暖。</text>
+      </view>
     </view>
   </block>
-
   <!-- Case 2: Matched with Gift -->
   <block wx:else>
-      <view class="header" wx:if="{{showGift}}">
-        <text class="title">✨ 配对成功 ✨</text>
-      </view>
-
-      <view class="pair-container {{animationStarted ? 'animate' : ''}}">
-        <!-- Left User (Me) -->
-        <view class="user-card left">
-            <image class="avatar" src="{{pairInfo.user1.avatar}}" mode="aspectFill"></image>
-            <view class="info" wx:if="{{showGift}}">
-                <text class="name">{{pairInfo.user1.name}}</text>
-                <view class="tag has-gift">
-                    🎁 已备好礼物
-                </view>
-            </view>
-        </view>
-
-        <!-- Gift Icon (Appears in middle) -->
-        <view class="gift-icon {{showGift ? 'show' : ''}}">
-            🎁
-        </view>
-
-        <!-- Right User (Partner) -->
-        <view class="user-card right">
-            <image class="avatar" src="{{pairInfo.user2.avatar}}" mode="aspectFill"></image>
-            <view class="info" wx:if="{{showGift}}">
-                <text class="name">{{pairInfo.user2.name}}</text>
-                <!-- Partner gift status is always assumed YES/Hidden since we are here -->
-                 <view class="tag has-gift">
-                    🎁 准备交换！
-                </view>
-            </view>
+    <view class="header" wx:if="{{showGift}}">
+      <text class="title">✨ 配对成功 ✨</text>
+    </view>
+    <view class="pair-container {{animationPhase}}">
+      <!-- Left User (Me) -->
+      <view class="user-card left">
+        <image class="avatar" src="{{pairInfo.user1.avatar}}" mode="aspectFill"></image>
+        <view class="info" wx:if="{{showGift}}">
+          <text class="name">{{pairInfo.user1.name}}</text>
+          <view class="tag has-gift">🎁 已备好礼物</view>
         </view>
       </view>
-
-      <view class="footer-tips" wx:if="{{showGift}}">
-        <text class="wish">Merry Christmas!</text>
+      <!-- Gift Icon (Appears in middle) -->
+      <view class="gift-icon {{giftPhase}}">🎁</view>
+      <!-- Right User (Partner) -->
+      <view class="user-card right">
+        <image class="avatar" src="{{pairInfo.user2.avatar}}" mode="aspectFill"></image>
+        <view class="info" wx:if="{{showGift}}">
+          <text class="name">{{pairInfo.user2.name}}</text>
+          <!-- Partner gift status is always assumed YES/Hidden since we are here -->
+          <view class="tag has-gift">🎁 准备交换！</view>
+        </view>
       </view>
+    </view>
+    <view class="footer-tips" wx:if="{{showGift}}">
+      <text class="wish">Merry Christmas!</text>
+    </view>
   </block>
 </view>

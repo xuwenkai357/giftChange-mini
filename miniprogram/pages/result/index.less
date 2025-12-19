@@ -1,191 +1,347 @@
 .result-page {
-    background-color: var(--christmas-red);
-    justify-content: center;
-    overflow: hidden;
+  background-color: var(--christmas-red);
+  justify-content: center;
+  overflow: hidden;
 }
 
 .header {
-    position: absolute;
-    top: 100rpx;
-    animation: fadeIn 1s ease-out;
+  position: absolute;
+  top: 100rpx;
+  animation: fadeIn 1s ease-out;
 
-    .title {
-        font-size: 50rpx;
-        font-weight: bold;
-        color: @gold;
-    }
+  .title {
+    font-size: 50rpx;
+    font-weight: bold;
+    color: @gold;
+  }
 }
 
 .hint-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+
+  .hint-card {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 60rpx;
+    border-radius: 20rpx;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    height: 100vh;
-    width: 100%;
-    
-    .hint-card {
-        background: rgba(255, 255, 255, 0.95);
-        padding: 60rpx;
-        border-radius: 20rpx;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        box-shadow: 0 10rpx 30rpx rgba(0,0,0,0.2);
-        animation: fadeIn 0.8s ease-out;
+    box-shadow: 0 10rpx 30rpx rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.8s ease-out;
 
-        .icon {
-            font-size: 100rpx;
-            margin-bottom: 30rpx;
-        }
-
-        .main-text {
-            font-size: 40rpx;
-            font-weight: bold;
-            color: @christmasRed;
-            margin-bottom: 20rpx;
-        }
-
-        .sub-text {
-            font-size: 28rpx;
-            color: #666;
-            text-align: center;
-            max-width: 500rpx;
-            line-height: 1.5;
-        }
+    .icon {
+      font-size: 100rpx;
+      margin-bottom: 30rpx;
     }
+
+    .main-text {
+      font-size: 40rpx;
+      font-weight: bold;
+      color: @christmasRed;
+      margin-bottom: 20rpx;
+    }
+
+    .sub-text {
+      font-size: 28rpx;
+      color: #666;
+      text-align: center;
+      max-width: 500rpx;
+      line-height: 1.5;
+    }
+  }
 }
 
 .pair-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 40rpx;
+  box-sizing: border-box;
+  height: 400rpx;
+  position: relative;
+
+  .user-card {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    padding: 0 40rpx;
-    box-sizing: border-box;
-    height: 400rpx;
-    position: relative;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
 
-    .user-card {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        transition: all 1s ease-in-out;
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-
-        &.left {
-            left: -150rpx; // Start off screen
-        }
-
-        &.right {
-            right: -150rpx; // Start off screen
-        }
-
-        .avatar {
-            width: 140rpx;
-            height: 140rpx;
-            border-radius: 50%;
-            border: 6rpx solid white;
-            box-shadow: 0 4rpx 10rpx rgba(0, 0, 0, 0.3);
-            margin-bottom: 20rpx;
-        }
-
-        .info {
-            text-align: center;
-            animation: fadeIn 0.5s ease-out;
-
-            .name {
-                display: block;
-                font-size: 32rpx;
-                color: white;
-                font-weight: bold;
-                margin-bottom: 6rpx;
-            }
-
-            .tag {
-                font-size: 24rpx;
-                padding: 4rpx 12rpx;
-                border-radius: 20rpx;
-                background: rgba(255, 255, 255, 0.2);
-                color: white;
-
-                &.no-gift {
-                    background: rgba(0, 0, 0, 0.4);
-                    color: #FFAAAA;
-                }
-            }
-        }
+    &.left {
+      left: -150rpx; // Start off screen
     }
 
-    // Animation State
-    &.animate {
-        .user-card.left {
-            left: 10%;
-        }
-
-        .user-card.right {
-            right: 10%;
-        }
+    &.right {
+      right: -150rpx; // Start off screen
     }
+
+    .avatar {
+      width: 140rpx;
+      height: 140rpx;
+      border-radius: 50%;
+      border: 6rpx solid white;
+      box-shadow: 0 4rpx 10rpx rgba(0, 0, 0, 0.3);
+      margin-bottom: 20rpx;
+    }
+
+    .info {
+      text-align: center;
+      animation: fadeIn 0.5s ease-out;
+
+      .name {
+        display: block;
+        font-size: 32rpx;
+        color: white;
+        font-weight: bold;
+        margin-bottom: 6rpx;
+      }
+
+      .tag {
+        font-size: 24rpx;
+        padding: 4rpx 12rpx;
+        border-radius: 20rpx;
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+
+        &.no-gift {
+          background: rgba(0, 0, 0, 0.4);
+          color: #FFAAAA;
+        }
+      }
+    }
+  }
+
+  // Phase 1: Move to collision point (center)
+  &.collide {
+    .user-card.left {
+      animation: slideInLeftCollide 0.6s ease-out forwards;
+    }
+
+    .user-card.right {
+      animation: slideInRightCollide 0.6s ease-out forwards;
+    }
+  }
+
+  // Phase 2: Bounce back to final position
+  &.bounce-back {
+    .user-card.left {
+      animation: bounceBackLeft 0.5s ease-out forwards;
+    }
+
+    .user-card.right {
+      animation: bounceBackRight 0.5s ease-out forwards;
+    }
+  }
+
+  // Final state (after animation is done)
+  &.final {
+    .user-card.left {
+      left: 10%;
+    }
+
+    .user-card.right {
+      right: 10%;
+    }
+  }
+}
+
+// Left avatar: slide in from left to center collision point
+@keyframes slideInLeftCollide {
+  0% {
+    left: -150rpx;
+  }
+
+  100% {
+    left: calc(50% - 80rpx); // Stop near center
+  }
+}
+
+// Right avatar: slide in from right to center collision point
+@keyframes slideInRightCollide {
+  0% {
+    right: -150rpx;
+  }
+
+  100% {
+    right: calc(50% - 80rpx); // Stop near center
+  }
+}
+
+// Left avatar: bounce back from center to final position
+@keyframes bounceBackLeft {
+  0% {
+    left: calc(50% - 80rpx);
+  }
+
+  40% {
+    left: 5%; // Overshoot slightly
+  }
+
+  70% {
+    left: 12%;
+  }
+
+  100% {
+    left: 10%;
+  }
+}
+
+// Right avatar: bounce back from center to final position
+@keyframes bounceBackRight {
+  0% {
+    right: calc(50% - 80rpx);
+  }
+
+  40% {
+    right: 5%; // Overshoot slightly
+  }
+
+  70% {
+    right: 12%;
+  }
+
+  100% {
+    right: 10%;
+  }
 }
 
 .gift-icon {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%) scale(0);
-    font-size: 80rpx;
-    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    z-index: 10;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  font-size: 80rpx;
+  z-index: 10;
+  opacity: 0;
 
-    &.show {
-        transform: translate(-50%, -50%) scale(1);
-    }
+  // Phase 1: Throw up from collision point with scale
+  &.throw-up {
+    animation: giftThrowUp 0.8s ease-out forwards;
+  }
+
+  // Phase 2: Fall down
+  &.fall-down {
+    animation: giftFallDown 0.6s ease-in forwards;
+  }
+
+  // Phase 3: Swing left and right
+  &.swing {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    animation: giftSwing 1.5s ease-in-out infinite;
+  }
+}
+
+// Gift throw up animation: scale from small to large while going up
+@keyframes giftThrowUp {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(0.2);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -250rpx) scale(1.2);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -300rpx) scale(1);
+  }
+}
+
+// Gift fall down animation
+@keyframes giftFallDown {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -300rpx) scale(1);
+  }
+
+  60% {
+    transform: translate(-50%, -40rpx) scale(1);
+  }
+
+  80% {
+    transform: translate(-50%, -80rpx) scale(1);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50rpx) scale(1);
+  }
+}
+
+// Gift swing animation (pendulum effect)
+@keyframes giftSwing {
+  0% {
+    transform: translate(-50%, -50rpx) scale(1) rotate(0deg);
+  }
+
+  25% {
+    transform: translate(-50%, -50rpx) scale(1) rotate(15deg);
+  }
+
+  50% {
+    transform: translate(-50%, -50rpx) scale(1) rotate(0deg);
+  }
+
+  75% {
+    transform: translate(-50%, -50rpx) scale(1) rotate(-15deg);
+  }
+
+  100% {
+    transform: translate(-50%, -50rpx) scale(1) rotate(0deg);
+  }
 }
 
 .footer-tips {
-    position: absolute;
-    bottom: 100rpx;
-    width: 80%;
-    text-align: center;
-    animation: slideUp 0.8s ease-out;
+  position: absolute;
+  bottom: 100rpx;
+  width: 80%;
+  text-align: center;
+  animation: slideUp 0.8s ease-out;
 
-    .tip-box {
-        background: rgba(255, 255, 255, 0.9);
-        padding: 20rpx;
-        border-radius: 10rpx;
-        color: @christmasRed;
-        font-size: 26rpx;
-        margin-bottom: 30rpx;
-        box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
-    }
+  .tip-box {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 20rpx;
+    border-radius: 10rpx;
+    color: @christmasRed;
+    font-size: 26rpx;
+    margin-bottom: 30rpx;
+    box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
+  }
 
-    .wish {
-        font-family: 'Cursive', serif;
-        font-size: 40rpx;
-        color: @gold;
-    }
+  .wish {
+    font-family: 'Cursive', serif;
+    font-size: 40rpx;
+    color: @gold;
+  }
 }
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
+  from {
+    opacity: 0;
+  }
 
-    to {
-        opacity: 1;
-    }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slideUp {
-    from {
-        transform: translateY(40rpx);
-        opacity: 0;
-    }
+  from {
+    transform: translateY(40rpx);
+    opacity: 0;
+  }
 
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
